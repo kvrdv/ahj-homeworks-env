@@ -1,14 +1,14 @@
 [Задание](https://github.com/netology-code/ahj-homeworks/tree/master/env)
 
-# Гайд по развертыванию рабочего окружения
+## Гайд по развертыванию рабочего окружения
 
-## 0. Если не устанавливаются пакеты через yarn:
+### 0. Если не устанавливаются пакеты через yarn:
 
 ```shell
 npm config set registry https://registry.npmjs.org/
 ```
 
-1. Создать папку `src`, с соответствующей структурой и файлами
+### 1. Создать папку `src`, с соответствующей структурой и файлами
 
 - Создать файл [.gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
 
