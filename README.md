@@ -1,108 +1,325 @@
-1. Если не устанавливаются пакеты через yarn:
+0. Если не устанавливаются пакеты через yarn:
+
 ```shell
 npm config set registry https://registry.npmjs.org/
 ```
 
-2. Создаем пакет [yarn](https://yarnpkg.com/configuration/manifest):
-```shell
-yarn init
-```
-* package.json
-* yarn-lock.json
-* .gitignore
-* .browserslistrc
-* .appveyor.yml
+1. Создать папку `src`, с соответствующей структурой и файлами
 
-3. Добавляем [webpack](https://webpack.js.org/concepts/):
-```shell
-yarn add --dev webpack webpack-cli
-```
-* webpack.config.js
+- Создать файл [.gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore):
 
-4. Добавляем [eslint](https://eslint.org/docs/user-guide/getting-started):
+- Создать файл `.browserslistrc`:
+
+```shell
+last 1 version
+> 1%
+maintained node versions
+not dead
+```
+
+- Создать файл `.appveyor.yml`:
+
+```shell
+image: Ubuntu1804  # образ для сборки
+
+stack: node 12  # окружение
+
+branches:
+  only:
+    - master  # ветка git
+  except:
+      - gh-pages
+
+cache: node_modules  # кеширование
+
+install:
+  - npm install  # команда установки зависимостей
+
+build: off  # отключаем встроенную в appveyor систему сборки
+
+build_script:
+  - npm run build   # команда сборки
+
+test_script:
+  - npm run lint && npm test  # скрипт тестирования
+
+deploy_script:
+  - git config --global credential.helper store
+  - git config --global user.name AppVeyor
+  - git config --global user.email ci@appveyor.com
+  - echo "https://$GITHUB_TOKEN:x-oauth-basic@github.com" > "$HOME/.git-credentials"
+  - npx push-dir --dir=dist --branch=gh-pages --force --verbose
+```
+
+- Создать файл `.eslintignore`:
+
+```shell
+dist
+coverage
+docs
+```
+
+2. Запустить команду `yarn init` > создается файл `package.json`
+3. Установить webpack:
+
+```shell
+yarn add webpack webpack-cli
+yarn add webpack-merge
+```
+
+- Прописать в `package.json`:
+
+```shell
+"scripts": {
+    "build": "webpack --config webpack.prod.js"
+},
+```
+
+- Создать файл `webpack.common.js`:
+
+```shell
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+module.exports = {
+  entry: "./src/index.js",
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "app.bundle.js",
+    chunkLoading: false,
+    wasmLoading: false,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+            }
+          }
+        ]
+      },
+      {
+        test: /\.ico$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+        },
+      }
+    ]
+  }
+}
+```
+
+- Создать файл `webpack.dev.js`:
+
+```shell
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common');
+
+module.exports = merge(common, {
+  mode: 'development',
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist',
+  },
+});
+```
+
+- Создать файл `webpack.prod.js`:
+
+```shell
+const { merge } = require('webpack-merge');
+const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const common = require('./webpack.common');
+
+module.exports = merge(common, {
+  mode: 'production',
+  optimization: {
+    minimizer: [
+      new TerserPlugin({}),
+      new OptimizeCSSAssetsPlugin({}),
+    ],
+  },
+});
+```
+
+- Установить плагины и лоадеры:
+
+```shell
+yarn add --dev html-webpack-plugin
+yarn add terser-webpack-plugin optimize-css-assets-webpack-plugin mini-css-extract-plugin
+yarn add --dev babel-loader css-loader html-loader url-loader file-loader
+```
+
+4. Установить [jest](https://jestjs.io/docs/ru/getting-started) и [babel](https://babeljs.io/setup#installation):
+
+```shell
+yarn add --dev jest babel-jest @babel/core @babel/cli @babel/preset-env
+yarn add core-js@3
+```
+
+- Прописать в `package.json`:
+
+```shell
+"scripts": {
+    "test": "jest",
+    "lint": "eslint .",
+},
+```
+
+- Создать файл `.babelrc`:
+
+```shell
+{
+  "presets": [
+    [
+       "@babel/preset-env", {
+           "useBuiltIns": "usage",
+            "corejs": 3
+        }
+    ]
+  ]
+}
+```
+
+5. Установить [eslint](https://eslint.org/docs/user-guide/getting-started):
+
 ```shell
 yarn add --dev eslint
 yarn run eslint --init
 ```
-* .eslintignore
-* .eslintrc.json
 
-5. Добавляем [babel](https://babeljs.io/setup#installation):
 ```shell
-yarn add --dev babel babel-cli
+How would you like to use ESLint?
+-To check syntax, find problems, and enforce code style
+What type of modules does your project use?
+-JavaScript modules (import/export)
+Which framework does your project use?
+-None of this
+Does your project use TypeScript?
+-No
+Where does your code run?
+-Browser
+How would you like to define a style for your project?
+-Use a popular style guide
+Which style guide do you want to follow?
+-Airbnb
+What format do you want your config file to be in?
+-JSON
+Would you like to install them now with npm?
+-Yes
 ```
-* .babelrc
 
-6. Добавляем [jest](https://jestjs.io/docs/ru/getting-started):
+- Прописать в `.eslintrc.json`:
+
 ```shell
-yarn add --dev jest
+{
+  "env": {
+    "jest": true,
+    "browser": true,
+    "es6": true
+  },
+  "extends": "airbnb-base",
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    // допускает ++
+    "no-plusplus": "off",
+
+    // допускает вывод в консоль
+    "no-console": "off",
+
+    "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
+
+    // допускает знаки
+    "no-mixed-operators": [
+      "error",
+      {
+        "groups": [
+          ["+", "*", "/", "%"],
+          ["&", "|", "^", "~", "<<", ">>", ">>>"],
+          ["==", "!=", "===", "!==", ">", ">=", "<", "<="],
+          ["&&", "||"],
+          ["in", "instanceof"]
+        ],
+        "allowSamePrecedence": true
+      }
+    ],
+
+    // максимальная длина строки
+    "max-len": ["error", { "code": 999 }]
+  }
+}
 ```
 
-7. Добавляем [webpack-dev-server](https://github.com/webpack/webpack-dev-server):
+7. Установить [webpack-dev-server](https://github.com/webpack/webpack-dev-server):
+
 ```shell
 yarn add --dev webpack-dev-server
 ```
 
+- Прописать в `package.json`:
+
+```shell
+"scripts": {
+  "start": "webpack-dev-server --config webpack.dev.js"
+}
+```
+
+- Прописать в `webpack.common.js`:
+
+```shell
+module.exports = {
+  //...
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000
+  }
+};
+```
+
+---
+
 # Нетология
+
 ## Продвинутый JavaScript в браузере
+
 ## Рабочее окружение
+
 [Задание](https://github.com/netology-code/ahj-homeworks/tree/master/env)
-
----
-
-### Yarn
-
-#### Легенда
-
-Вы работаете с новой командой, в которой в качестве пакетного менеджера используется `yarn`. От верстальщика вам пришёл небольшой макет, для которого необходимо собрать инфраструктуру.
-
-#### Описание
-
-Соберите инфраструктуру проекта на базе Webpack, ESLint, Babel, Jest, Webpack Dev Server.
-
-Обратите внимание, что картинка, указанная в `index.html` должна попадать в итоговую сборку (без необходимости явного её импорта в `index.js`). Кроме того, иконка (`favicon.ico`) тоже должна быть в дистрибутиве.
-
-Исходники к задаче: https://github.com/netology-code/ahj-homeworks/tree/master/yarn-cd
-
-**Важно: данная задача не предполагает развёртывания в AppVeyor и GitHub Pages**
-
-**В качестве результата пришлите проверяющему ссылку на ваш GitHub-проект.**
-
----
-
-### Continuous Deployment
-
-#### Легенда
-
-Пора развернуть настроенный вами шедевр. Для этого прекрасно подойдёт связка из AppVeyor и GitHub Pages.
-
-#### Описание
-
-Воспользуйтесь пошаговой инструкцией к лекции, чтобы развернуть тестирование, сборку и deployment на AppVeyor и GitHub Pages.
-
-Обратите внимание, что команда `yarn test` (не забудьте написать скрипт `test`) выдаёт ненулевой код завершения. Настройте свой проект так, чтобы без тестов код завершения был 0 (команда `yarn test` проходила без ошибки).
-
-**Обратите внимание: в лекции приведены описания для `npm` вам же нужно использовать `yarn`.**
-
-Не забудьте поставить бейджик со статусом в `README.md`.
-
-**В качестве результата пришлите проверяющему ссылку на ваш GitHub-проект.**
-
----
-
-### Разделение конфигураций (задача со звёздочкой)
-
-Важно: эта задача не является обязательной
-
-#### Легенда
-
-На данный момент у нас одна конфигурация Webpack: для разработки и для production. В больших проектах конфигурации чаще всего разделяют, в том числе потому, что для production применяются плагины оптимизации, выполнение которых может занять достаточно длительное время.
-
-#### Описание
-
-Следуя инструкциям из лекции, разделите конфигурацию на три части:
-* общая
-* prod (в prod нужно указать только `mode: 'production'` и настройки оптимизации для плагинов Terser и OptimizeCSSAssets)
-* dev
-
-**В качестве результата пришлите проверяющему ссылку на ваш GitHub-проект.**
