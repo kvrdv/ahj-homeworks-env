@@ -1,25 +1,25 @@
-image: Ubuntu1804 # образ для сборки
+image: Ubuntu1804  # образ для сборки
 
-stack: node 12 # окружение
+stack: node 12  # окружение
 
 branches:
   only:
-    - master # ветка git
+    - master  # ветка git
   except:
-    - gh-pages
+      - gh-pages
 
-cache: node_modules # кеширование
+cache: node_modules  # кеширование
 
 install:
-  - yarn add # команда установки зависимостей
+  - npm install  # команда установки зависимостей
 
-build: off # отключаем встроенную в appveyor систему сборки
+build: off  # отключаем встроенную в appveyor систему сборки
 
 build_script:
-  - yarn run build # команда сборки
+  - npm run build   # команда сборки
 
 test_script:
-  - yarn run lint && yarn test # скрипт тестирования
+  - npm run lint && npm test  # скрипт тестирования
 
 deploy_script:
   - git config --global credential.helper store
