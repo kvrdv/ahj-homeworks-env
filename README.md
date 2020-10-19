@@ -36,35 +36,26 @@ not dead
 - Файл `.appveyor.yml`:
 
 ```shell
-image: Ubuntu1804  # образ для сборки
-
-stack: node 12  # окружение
-
+image: Ubuntu1804 # образ для сборки
+stack: node 10 # окружение
 branches:
-  only:
-    - master  # ветка git
-  except:
-      - gh-pages
-
-cache: node_modules  # кеширование
-
+only:
+  - master # ветка git
+cache: node_modules # кеширование
 install:
-  - yarn add  # команда установки зависимостей
-
-build: off  # отключаем встроенную в appveyor систему сборки
-
+  - npm install # команда установки зависимостей
+build: off
 build_script:
-  - yarn run build   # команда сборки
-
+  - npm run build # команда сборки
 test_script:
-  - yarn run lint && yarn test  # скрипт тестирования
-
-deploy_script:
+  - npm run lint && npm test # скрипт тестирования
+deploy_script: # скрипт развёртывания
   - git config --global credential.helper store
   - git config --global user.name AppVeyor
   - git config --global user.email ci@appveyor.com
   - echo "https://$GITHUB_TOKEN:x-oauth-basic@github.com" > "$HOME/.git-credentials"
   - npx push-dir --dir=dist --branch=gh-pages --force --verbose
+
 ```
 
 - Файл `.eslintignore`:
