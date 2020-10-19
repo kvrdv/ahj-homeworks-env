@@ -6,21 +6,25 @@
 
 ## Гайд по развертыванию рабочего окружения
 
+---
+
 ### 0. Если не устанавливаются пакеты через yarn:
 
 ```shell
 npm config set registry https://registry.npmjs.org/
 ```
 
-### 1. Создать необходимые файлы и папки: 
+---
 
-* Папка `src`, с соответствующей структурой и файлами
+### 1. Создать необходимые файлы и папки:
 
-* Запустить команду `yarn init` > создается файл `package.json`
+- Папка `src`, с соответствующей структурой и файлами
 
-* Файл [.gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
+- Запустить команду `yarn init` > создается файл `package.json`
 
-* Файл `.browserslistrc`:
+- Файл [.gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
+
+- Файл `.browserslistrc`:
 
 ```shell
 last 1 version
@@ -29,7 +33,7 @@ maintained node versions
 not dead
 ```
 
-* Файл `.appveyor.yml`:
+- Файл `.appveyor.yml`:
 
 ```shell
 image: Ubuntu1804  # образ для сборки
@@ -63,13 +67,15 @@ deploy_script:
   - npx push-dir --dir=dist --branch=gh-pages --force --verbose
 ```
 
-* Файл `.eslintignore`:
+- Файл `.eslintignore`:
 
 ```shell
 dist
 coverage
 docs
 ```
+
+---
 
 ### 2. Установить [webpack](https://webpack.js.org/concepts/):
 
@@ -191,6 +197,8 @@ yarn add terser-webpack-plugin optimize-css-assets-webpack-plugin mini-css-extra
 yarn add --dev babel-loader css-loader html-loader url-loader file-loader
 ```
 
+---
+
 ### 3. Установить [jest](https://jestjs.io/docs/ru/getting-started) и [babel](https://babeljs.io/setup#installation):
 
 ```shell
@@ -221,6 +229,8 @@ yarn add core-js@3
   ]
 }
 ```
+
+---
 
 ### 4. Установить [eslint](https://eslint.org/docs/user-guide/getting-started):
 
@@ -298,6 +308,8 @@ Would you like to install them now with npm?
 }
 ```
 
+---
+
 ### 5. Установить [webpack-dev-server](https://github.com/webpack/webpack-dev-server):
 
 ```shell
@@ -324,3 +336,5 @@ module.exports = {
   }
 };
 ```
+
+---
