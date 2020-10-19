@@ -1,10 +1,12 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/yx5i9j4gto2g9pxx/branch/main?svg=true)](https://ci.appveyor.com/project/kvrdv/ahj-homeworks-env/branch/main)
+
 ## Нетология. Продвинутый JavaScript в браузере
 
 [Задание "Рабочее окружение"](https://github.com/netology-code/ahj-homeworks/tree/master/env)
 
 ---
 
-## Гайд по развертыванию рабочего окружения
+## Гайд по развертыванию рабочего окружения:
 
 ### 0. Если не устанавливаются пакеты через yarn:
 
