@@ -1,4 +1,8 @@
-0. Если не устанавливаются пакеты через yarn:
+[Задание](https://github.com/netology-code/ahj-homeworks/tree/master/env)
+
+# Гайд по развертыванию рабочего окружения
+
+## 0. Если не устанавливаются пакеты через yarn:
 
 ```shell
 npm config set registry https://registry.npmjs.org/
@@ -6,7 +10,7 @@ npm config set registry https://registry.npmjs.org/
 
 1. Создать папку `src`, с соответствующей структурой и файлами
 
-- Создать файл [.gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore):
+- Создать файл [.gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
 
 - Создать файл `.browserslistrc`:
 
@@ -313,13 +317,3 @@ module.exports = {
   }
 };
 ```
-
----
-
-# Нетология
-
-## Продвинутый JavaScript в браузере
-
-## Рабочее окружение
-
-[Задание](https://github.com/netology-code/ahj-homeworks/tree/master/env)
