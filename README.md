@@ -12,9 +12,11 @@
 npm config set registry https://registry.npmjs.org/
 ```
 
-### 1. Создать: 
+### 1. Создать необходимые файлы и папки: 
 
 * Папка `src`, с соответствующей структурой и файлами
+
+* Запустить команду `yarn init` > создается файл `package.json`
 
 * Файл [.gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
 
@@ -69,8 +71,7 @@ coverage
 docs
 ```
 
-2. Запустить команду `yarn init` > создается файл `package.json`
-3. Установить webpack:
+### 2. Установить [webpack](https://webpack.js.org/concepts/):
 
 ```shell
 yarn add webpack webpack-cli
@@ -190,7 +191,7 @@ yarn add terser-webpack-plugin optimize-css-assets-webpack-plugin mini-css-extra
 yarn add --dev babel-loader css-loader html-loader url-loader file-loader
 ```
 
-4. Установить [jest](https://jestjs.io/docs/ru/getting-started) и [babel](https://babeljs.io/setup#installation):
+### 3. Установить [jest](https://jestjs.io/docs/ru/getting-started) и [babel](https://babeljs.io/setup#installation):
 
 ```shell
 yarn add --dev jest babel-jest @babel/core @babel/cli @babel/preset-env
@@ -221,7 +222,7 @@ yarn add core-js@3
 }
 ```
 
-5. Установить [eslint](https://eslint.org/docs/user-guide/getting-started):
+### 4. Установить [eslint](https://eslint.org/docs/user-guide/getting-started):
 
 ```shell
 yarn add --dev eslint
@@ -297,7 +298,7 @@ Would you like to install them now with npm?
 }
 ```
 
-7. Установить [webpack-dev-server](https://github.com/webpack/webpack-dev-server):
+### 5. Установить [webpack-dev-server](https://github.com/webpack/webpack-dev-server):
 
 ```shell
 yarn add --dev webpack-dev-server
