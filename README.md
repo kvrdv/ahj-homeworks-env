@@ -210,7 +210,7 @@ yarn add core-js@3
 
 ```shell
 "scripts": {
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "eslint .",
 },
 ```
