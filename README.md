@@ -1,5 +1,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/yx5i9j4gto2g9pxx/branch/main?svg=true)](https://ci.appveyor.com/project/kvrdv/ahj-homeworks-env/branch/main)
 
+[GitHub Pages](https://kvrdv.github.io/ahj-homeworks-env/)
+
 ## Нетология. Продвинутый JavaScript в браузере
 
 [Задание "Рабочее окружение"](https://github.com/netology-code/ahj-homeworks/tree/master/env)
