@@ -12,13 +12,13 @@
 npm config set registry https://registry.npmjs.org/
 ```
 
-### 1. Создать 
+### 1. Создать: 
 
-* 1.1 папка `src`, с соответствующей структурой и файлами
+* Папка `src`, с соответствующей структурой и файлами
 
-* 1.2 файл [.gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
+* Файл [.gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
 
-* 1.3 файл `.browserslistrc`:
+* Файл `.browserslistrc`:
 
 ```shell
 last 1 version
@@ -27,7 +27,7 @@ maintained node versions
 not dead
 ```
 
-* 1.4 файл `.appveyor.yml`:
+* Файл `.appveyor.yml`:
 
 ```shell
 image: Ubuntu1804  # образ для сборки
@@ -61,7 +61,7 @@ deploy_script:
   - npx push-dir --dir=dist --branch=gh-pages --force --verbose
 ```
 
-* 1.5 файл `.eslintignore`:
+* Файл `.eslintignore`:
 
 ```shell
 dist
