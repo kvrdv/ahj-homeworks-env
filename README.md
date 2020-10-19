@@ -1,4 +1,6 @@
-[Задание](https://github.com/netology-code/ahj-homeworks/tree/master/env)
+## Нетология. Продвинутый JavaScript в браузере
+
+[Задание "Рабочее окружение"](https://github.com/netology-code/ahj-homeworks/tree/master/env)
 
 ## Гайд по развертыванию рабочего окружения
 
