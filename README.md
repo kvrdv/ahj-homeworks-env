@@ -2,6 +2,8 @@
 
 [Задание "Рабочее окружение"](https://github.com/netology-code/ahj-homeworks/tree/master/env)
 
+---
+
 ## Гайд по развертыванию рабочего окружения
 
 ### 0. Если не устанавливаются пакеты через yarn:
@@ -10,11 +12,13 @@
 npm config set registry https://registry.npmjs.org/
 ```
 
-### 1. Создать папку `src`, с соответствующей структурой и файлами
+### 1. Создать 
 
-- Создать файл [.gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
+1.1 Папка `src`, с соответствующей структурой и файлами
 
-- Создать файл `.browserslistrc`:
+1.2 Файл [.gitignore](https://github.com/github/gitignore/blob/master/Node.gitignore)
+
+1.3 Файл `.browserslistrc`:
 
 ```shell
 last 1 version
@@ -23,7 +27,7 @@ maintained node versions
 not dead
 ```
 
-- Создать файл `.appveyor.yml`:
+1.4 Файл `.appveyor.yml`:
 
 ```shell
 image: Ubuntu1804  # образ для сборки
